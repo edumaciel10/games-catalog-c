@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "Util.h"
 
-void boolean_print(boolean bool)
+void boolean_print(boolean boolPrint)
 {
-    if(bool == TRUE)
+    if (boolPrint == TRUE)
     {
         printf("TRUE\n");
     }
-    else if(bool == FALSE)
+    else if (boolPrint == FALSE)
     {
         printf("FALSE\n");
     }
@@ -18,20 +18,22 @@ void boolean_print(boolean bool)
     }
 }
 
-char *readLine() {
+char *readLine()
+{
     char *string = NULL;
     char currentInput;
     int index = 0;
-    do {
+    do
+    {
         currentInput = (char)getchar();
-        string = (char *) realloc(string, sizeof(char) * (index + 1));
+        string = (char *)realloc(string, sizeof(char) * (index + 1));
         string[index] = currentInput;
         index++;
-        if(currentInput == '\r')
+        if (currentInput == '\r')
         {
             currentInput = (char)getchar();
         }
-    } while((currentInput != '\n') && (currentInput != EOF));
+    } while ((currentInput != '\n') && (currentInput != EOF));
     string[index - 1] = '\0';
     return string;
 }

@@ -5,7 +5,8 @@
 
 void testeEmpilhaStdin();
 
-int main() {
+int main()
+{
     testeEmpilhaStdin();
 }
 
@@ -14,11 +15,11 @@ void testeEmpilhaStdin()
     LISTA *lista;
     lista = lista_criar();
     ITEM *item = item_ler_std_in();
-    lista_inserir(lista, item);
+    lista_inserir_fim(lista, item);
     item = item_ler_std_in();
-    lista_inserir(lista, item);
-    item_imprimir(lista_busca_sequencial(lista, 1));
-    item_imprimir(lista_busca_sequencial(lista, 1));
+    lista_inserir_fim(lista, item);
+    item_imprimir(lista_busca_ordenada(lista, 1));
+    item_imprimir(lista_busca_ordenada(lista, 1));
     boolean_print(lista_vazia(lista));
     lista_apagar(&lista);
 }

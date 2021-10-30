@@ -28,7 +28,7 @@ NODE *getNodeWithKey(int chave, NODE *noAtual);
 
 boolean deleteNode(LISTA *lista, NODE *noAtual);
 
-bool listContainsSomething(const LISTA *lista);
+boolean lista_contem_algo(const LISTA *lista);
 
 boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual);
 
@@ -74,7 +74,7 @@ boolean lista_apagar(LISTA **lista)
 /*Insere um novo nó no início da lista. PARA LISTAS NÃO ORDENADAS*/
 boolean lista_inserir_inicio(LISTA *lista, ITEM *i)
 {
-    if ((lista != NULL) && (!lista_cheia(lista)))
+    if ((lista != NULL))
     {
         NODE *pnovo = (NODE *)malloc(sizeof(NODE));
         if (pnovo != NULL)
@@ -102,7 +102,7 @@ boolean lista_inserir_inicio(LISTA *lista, ITEM *i)
 /*Insere um novo nó no fim da lista. PARA LISTAS NÃO ORDENADAS*/
 boolean lista_inserir_fim(LISTA *lista, ITEM *item)
 {
-    if ((lista != NULL) && (!lista_cheia(lista)))
+    if ((lista != NULL))
     {
         NODE *pnovo = (NODE *)malloc(sizeof(NODE));
         if (pnovo != NULL)
@@ -130,13 +130,12 @@ boolean lista_inserir_fim(LISTA *lista, ITEM *item)
 boolean lista_remover_item(LISTA *lista, int chave)
 {
     NODE *noAtual = NULL;
-    if (listContainsSomething(lista))
+    if (lista_contem_algo(lista))
     {
         noAtual = lista->inicio;
         /*Percorre a lista em busca da chave*/
         noAtual = getNodeWithKey(chave, noAtual);
         /*Se a lista não acabou significa que encontrou a chave*/
-        boolean result;
         deleteNodeIfPossible(lista, noAtual);
     }
     return FALSE; /*elemento (chave) não está na lista ou lista vazia*/
@@ -156,9 +155,26 @@ boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual)
     return result;
 }
 
-bool listContainsSomething(const LISTA *lista)
+boolean lista_contem_algo(const LISTA *lista)
 {
     return (lista != NULL) && (!lista_vazia(lista));
+}
+
+ITEM *lista_busca_ordenada(const LISTA *lista, int chave)
+{
+    ITEM *result = NULL;
+    if (lista_contem_algo(lista))
+    {
+        NODE *noAtual = lista->inicio;
+        /*Percorre a lista em busca da chave*/
+        noAtual = getNodeWithKey(chave, noAtual);
+        /*Se a lista não acabou significa que encontrou a chave*/
+        if (noAtual != NULL)
+        {
+            result = noAtual->item;
+        }
+    }
+    return result;
 }
 
 boolean deleteNode(LISTA *lista, NODE *noAtual)
@@ -200,4 +216,9 @@ NODE *getNodeWithKey(int chave, NODE *noAtual)
 boolean is_list_start(const LISTA *lista, const NODE *noAtual)
 {
     return noAtual == lista->inicio;
+}
+
+boolean lista_vazia(const LISTA *lista)
+{
+    return lista->inicio == NULL;
 }

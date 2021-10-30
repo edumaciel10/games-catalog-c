@@ -5,7 +5,7 @@
 #define FALSE 0
 typedef int boolean;
 
-void boolean_print(boolean bool);
+void boolean_print(boolean boolPrint);
 
 char *readLine();
 

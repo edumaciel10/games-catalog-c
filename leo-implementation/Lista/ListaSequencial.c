@@ -16,7 +16,7 @@ static void lista_remove_tudo(LISTA *lista);
 
 LISTA *lista_criar()
 {
-    LISTA *lista = (LISTA *) malloc(sizeof(LISTA));
+    LISTA *lista = (LISTA *)malloc(sizeof(LISTA));
     if (lista != NULL)
     {
         lista->inicio = INICIO;
@@ -25,7 +25,8 @@ LISTA *lista_criar()
     return lista;
 }
 
-boolean lista_inserir(LISTA *lista, ITEM *item){
+boolean lista_inserir(LISTA *lista, ITEM *item)
+{
 
     if ((lista != NULL) && !lista_cheia(lista))
     {
@@ -36,18 +37,10 @@ boolean lista_inserir(LISTA *lista, ITEM *item){
     return FALSE;
 }
 
-boolean lista_cheia(const LISTA *lista)
-{
-    return lista->fim >= TAM_MAX;
-}
-boolean lista_vazia(const LISTA *lista)
-{
-    return lista->fim == INICIO;
-}
-
 boolean lista_inserir_posicao(LISTA *lista, int posicao, ITEM *item)
 {
-    if (!lista_cheia(lista) && posicao_valida(lista, posicao)) {
+    if (!lista_cheia(lista) && posicao_valida(lista, posicao))
+    {
         move_itens_a_direita(lista, posicao);
         lista->valores[posicao] = item;
         lista->fim++;
@@ -84,7 +77,6 @@ ITEM *lista_busca_ordenada(const LISTA *lista, int chave)
     return NULL; //retorna erro – não está na valores - percorreu toda a valores
 }
 
-
 static boolean posicao_valida(const LISTA *l, int pos)
 {
     return pos < l->fim;
@@ -103,7 +95,7 @@ boolean lista_apagar(LISTA **lista)
     if ((*lista != NULL) && (!lista_vazia(*lista)))
     {
         lista_remove_tudo(*lista);
-        free (*lista);
+        free(*lista);
         *lista = NULL;
         return TRUE;
     }

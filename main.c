@@ -20,9 +20,9 @@ void testeEmpilhaStdin()
     lista_inserir_fim(lista, item); // pnovo 1
     item = item_ler_std_in();
     lista_inserir_fim(lista, item); // pnovo 2
-    item_imprimir(busca(lista, 1));
-    item_imprimir(busca(lista, 6));
-    item_imprimir(busca(lista, 11));
+    item_imprimir(lista_busca(lista, 1));
+    item_imprimir(lista_busca(lista, 6));
+    item_imprimir(lista_busca(lista, 11));
     boolean_print(lista_vazia(lista));
     // should print 3 items
     // lista_apagar(&lista);

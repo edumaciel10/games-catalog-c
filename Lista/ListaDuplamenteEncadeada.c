@@ -35,7 +35,7 @@ LISTA *lista_criar()
     if (lista != NULL)
     {
         NODE *sentinela = (NODE *)malloc(sizeof(NODE));
-        NODE *fim = (NODE *)malloc(sizeof(NODE));
+        NODE *fim = NULL;
         lista->sentinela = sentinela;
         lista->fim = fim;
         lista->tamanho = 0;
@@ -91,7 +91,7 @@ boolean lista_inserir_fim(LISTA *lista, ITEM *item)
                 pnovo->proximo = lista->sentinela;
                 if (lista->fim->anterior == NULL)
                 {
-                    lista->fim->anterior = pnovo;
+                    lista->fim->anterior = lista->sentinela;
                 }
             }
             lista->fim = pnovo;
@@ -101,7 +101,7 @@ boolean lista_inserir_fim(LISTA *lista, ITEM *item)
     }
     return FALSE;
 }
-ITEM *busca(const LISTA *lista, int chave)
+ITEM *lista_busca(const LISTA *lista, int chave)
 {
     lista->sentinela->item = item_criar_vazio();
 
@@ -111,6 +111,7 @@ ITEM *busca(const LISTA *lista, int chave)
     {
         p = p->proximo;
     } while (item_get_chave(p->item) != chave);
+    item_apagar(&lista->sentinela->item);
     return ((p != lista->sentinela) ? p->item : NULL);
 }
 
@@ -130,7 +131,7 @@ NODE *getNodeWithKey(int chave, NODE *noAtual)
 //     if (lista_contem_algo(lista))
 //     {
 //         /*Percorre a lista em busca da chave*/
-//         noAtual = busca(chave, chave);
+//         noAtual = lista_busca(chave, chave);
 //         /*Se a lista não acabou significa que encontrou a chave*/
 //         deleteNodeIfPossible(lista, noAtual);
 //     }

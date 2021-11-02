@@ -80,7 +80,8 @@ boolean lista_inserir_fim(LISTA *lista, ITEM *item)
             pnovo->item = item;
             if (lista->sentinela->proximo == NULL)
             {
-                pnovo->anterior = pnovo->proximo = NULL;
+                pnovo->anterior = lista->sentinela;
+                pnovo->proximo = NULL;
                 lista->sentinela->proximo = pnovo;
             }
             else

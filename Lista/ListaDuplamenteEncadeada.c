@@ -6,7 +6,7 @@ typedef struct node_st NODE;
 
 struct node_st
 {
-    ITEM *item;
+    JOGO *jogo;
     NODE *anterior;
     NODE *proximo;
 };
@@ -50,7 +50,7 @@ void lista_esvazia(NODE *noAtual)
         {
             lista_esvazia(noAtual->proximo);
         }
-        item_apagar(&noAtual->item);
+        jogo_apagar(&noAtual->jogo);
         noAtual->anterior = NULL;
         free(noAtual); /* apaga o nó*/
         noAtual = NULL;
@@ -68,14 +68,14 @@ boolean lista_apagar(LISTA **lista)
 }
 
 /*Insere um novo nó no início da lista. PARA LISTAS NÃO ORDENADAS*/
-boolean lista_inserir_inicio(LISTA *lista, ITEM *i)
+boolean lista_inserir_inicio(LISTA *lista, JOGO *i)
 {
     if ((lista != NULL))
     {
         NODE *pnovo = (NODE *)malloc(sizeof(NODE));
         if (pnovo != NULL)
         {
-            pnovo->item = i;
+            pnovo->jogo = i;
             if (lista->inicio == NULL)
             {
                 lista->fim = pnovo;
@@ -96,14 +96,14 @@ boolean lista_inserir_inicio(LISTA *lista, ITEM *i)
 }
 
 /*Insere um novo nó no fim da lista. PARA LISTAS NÃO ORDENADAS*/
-boolean lista_inserir_fim(LISTA *lista, ITEM *item)
+boolean lista_inserir_fim(LISTA *lista, JOGO *jogo)
 {
     if ((lista != NULL))
     {
         NODE *pnovo = (NODE *)malloc(sizeof(NODE));
         if (pnovo != NULL)
         {
-            pnovo->item = item;
+            pnovo->jogo = jogo;
             if (lista->inicio == NULL)
             {
                 lista->inicio = pnovo;
@@ -123,7 +123,7 @@ boolean lista_inserir_fim(LISTA *lista, ITEM *item)
     return FALSE;
 }
 
-boolean lista_remover_item(LISTA *lista, int chave)
+boolean lista_remover_jogo(LISTA *lista, int chave)
 {
     NODE *noAtual = NULL;
     if (lista_contem_algo(lista))
@@ -156,9 +156,9 @@ boolean lista_contem_algo(const LISTA *lista)
     return (lista != NULL) && (!lista_vazia(lista));
 }
 
-ITEM *lista_busca_ordenada(const LISTA *lista, int chave)
+JOGO *lista_busca_ordenada(const LISTA *lista, int chave)
 {
-    ITEM *result = NULL;
+    JOGO *result = NULL;
     if (lista_contem_algo(lista))
     {
         NODE *noAtual = lista->inicio;
@@ -167,7 +167,7 @@ ITEM *lista_busca_ordenada(const LISTA *lista, int chave)
         /*Se a lista não acabou significa que encontrou a chave*/
         if (noAtual != NULL)
         {
-            result = noAtual->item;
+            result = noAtual->jogo;
         }
     }
     return result;
@@ -202,7 +202,7 @@ boolean deleteNode(LISTA *lista, NODE *noAtual)
 
 NODE *getNodeWithKey(int chave, NODE *noAtual)
 {
-    while (noAtual != NULL && (item_get_chave(noAtual->item) != chave))
+    while (noAtual != NULL && (jogo_get_chave(noAtual->jogo) != chave))
     {
         noAtual = noAtual->proximo;
     }

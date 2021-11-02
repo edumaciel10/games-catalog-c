@@ -12,19 +12,19 @@ struct item_st
     int defesa;
 };
 
-ITEM *item_criar_vazio()
+JOGO *item_criar_vazio()
 {
-    ITEM *item;
+    JOGO *item;
 
-    item = (ITEM *) calloc(sizeof(ITEM), 1);
+    item = (JOGO *) calloc(sizeof(JOGO), 1);
     return item;
 }
 
-ITEM *item_criar (int chave, const char *nome, const char *descricao, int ataque, int defesa)
+JOGO *item_criar (int chave, const char *nome, const char *descricao, int ataque, int defesa)
 {
-    ITEM *item;
+    JOGO *item;
 
-    item = (ITEM *) malloc(sizeof(ITEM));
+    item = (JOGO *) malloc(sizeof(JOGO));
 
     if (item != NULL)
     {
@@ -38,9 +38,9 @@ ITEM *item_criar (int chave, const char *nome, const char *descricao, int ataque
     return NULL;
 }
 
-ITEM *item_ler_std_in()
+JOGO *item_ler_std_in()
 {
-    ITEM item;
+    JOGO item;
     scanf("%d", &(item.chave));
     scanf(" %[^(\r|\n)]*c", item.nome);
     scanf(" %[^(\r|\n)]*c", item.descricao);
@@ -49,7 +49,7 @@ ITEM *item_ler_std_in()
     return item_criar(item.chave, item.nome, item.descricao, item.ataque, item.defesa);
 }
 
-boolean item_apagar(ITEM **item)
+boolean item_apagar(JOGO **item)
 {
     if (*item != NULL)
     {
@@ -61,7 +61,7 @@ boolean item_apagar(ITEM **item)
     return FALSE;
 }
 
-int item_get_chave(const ITEM *item)
+int item_get_chave(const JOGO *item)
 {
     if (item != NULL)
     {
@@ -71,7 +71,7 @@ int item_get_chave(const ITEM *item)
 }
 
 
-boolean item_set_chave(ITEM *item, int chave)
+boolean item_set_chave(JOGO *item, int chave)
 {
     if (item != NULL){
         item->chave = chave;
@@ -81,7 +81,7 @@ boolean item_set_chave(ITEM *item, int chave)
 }
 
 
-void item_imprimir(const ITEM *item)
+void item_imprimir(const JOGO *item)
 {
     if (item != NULL)
     {

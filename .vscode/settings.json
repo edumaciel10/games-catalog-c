@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "*.mdx": "markdown",
-    "lista.h": "c"
+    "lista.h": "c",
+    "util.h": "c",
+    "jogo.h": "c"
   }
 }

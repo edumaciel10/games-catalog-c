@@ -18,8 +18,12 @@ void testeEmpilhaStdin()
     lista_inserir_fim(lista, jogo);
     jogo = jogo_ler_std_in();
     lista_inserir_fim(lista, jogo);
-    jogo_imprimir(lista_busca_ordenada(lista, 1));
-    jogo_imprimir(lista_busca_ordenada(lista, 1));
+    jogo = jogo_ler_std_in();
+    lista_inserir_fim(lista, jogo);
+    jogo_imprimir(lista_busca(lista, 1));
+    jogo_imprimir(lista_busca(lista, 5));
+    jogo_imprimir(lista_busca(lista, 9));
     boolean_print(lista_vazia(lista));
-    lista_apagar(&lista);
+    // should print 3 items
+    // lista_apagar(&lista);
 }

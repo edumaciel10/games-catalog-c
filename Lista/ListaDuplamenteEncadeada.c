@@ -13,7 +13,7 @@ struct node_st
 
 struct lista
 {
-    NODE *inicio;
+    NODE *sentinela;
     NODE *fim;
     int tamanho;
 };
@@ -34,8 +34,10 @@ LISTA *lista_criar()
     LISTA *lista = (LISTA *)malloc(sizeof(LISTA));
     if (lista != NULL)
     {
-        lista->inicio = NULL;
-        lista->fim = NULL;
+        NODE *sentinela = (NODE *)malloc(sizeof(NODE));
+        NODE *fim = NULL;
+        lista->sentinela = sentinela;
+        lista->fim = fim;
         lista->tamanho = 0;
     }
     return lista;
@@ -61,38 +63,10 @@ boolean lista_apagar(LISTA **lista)
 {
     if (*lista == NULL)
         return FALSE;
-    lista_esvazia((*lista)->inicio);
+    lista_esvazia((*lista)->sentinela->proximo);
     free(*lista);
     *lista = NULL;
     return TRUE;
-}
-
-/*Insere um novo nó no início da lista. PARA LISTAS NÃO ORDENADAS*/
-boolean lista_inserir_inicio(LISTA *lista, JOGO *i)
-{
-    if ((lista != NULL))
-    {
-        NODE *pnovo = (NODE *)malloc(sizeof(NODE));
-        if (pnovo != NULL)
-        {
-            pnovo->jogo = i;
-            if (lista->inicio == NULL)
-            {
-                lista->fim = pnovo;
-                pnovo->proximo = NULL;
-            }
-            else
-            {
-                lista->inicio->anterior = pnovo;
-                pnovo->proximo = lista->inicio;
-            }
-            pnovo->anterior = NULL;
-            lista->inicio = pnovo;
-            lista->tamanho++;
-            return TRUE;
-        }
-    }
-    return FALSE;
 }
 
 /*Insere um novo nó no fim da lista. PARA LISTAS NÃO ORDENADAS*/
@@ -104,17 +78,22 @@ boolean lista_inserir_fim(LISTA *lista, JOGO *jogo)
         if (pnovo != NULL)
         {
             pnovo->jogo = jogo;
-            if (lista->inicio == NULL)
+            if (lista->sentinela->proximo == NULL)
             {
-                lista->inicio = pnovo;
-                pnovo->anterior = NULL;
+                pnovo->anterior = lista->sentinela;
+                pnovo->proximo = NULL;
+                lista->sentinela->proximo = pnovo;
             }
             else
             {
                 lista->fim->proximo = pnovo;
                 pnovo->anterior = lista->fim;
+                pnovo->proximo = lista->sentinela;
+                if (lista->fim->anterior == NULL)
+                {
+                    lista->fim->anterior = lista->sentinela;
+                }
             }
-            pnovo->proximo = NULL;
             lista->fim = pnovo;
             lista->tamanho++;
             return TRUE;
@@ -123,81 +102,18 @@ boolean lista_inserir_fim(LISTA *lista, JOGO *jogo)
     return FALSE;
 }
 
-boolean lista_remover_jogo(LISTA *lista, int chave)
+JOGO *lista_busca(const LISTA *lista, int chave)
 {
-    NODE *noAtual = NULL;
-    if (lista_contem_algo(lista))
-    {
-        noAtual = lista->inicio;
-        /*Percorre a lista em busca da chave*/
-        noAtual = getNodeWithKey(chave, noAtual);
-        /*Se a lista não acabou significa que encontrou a chave*/
-        deleteNodeIfPossible(lista, noAtual);
-    }
-    return FALSE; /*elemento (chave) não está na lista ou lista vazia*/
-}
+    lista->sentinela->jogo = jogo_criar_vazio();
 
-boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual)
-{
-    boolean result;
-    if (noAtual != NULL)
+    jogo_set_chave(lista->sentinela->jogo, chave);
+    NODE *p = lista->sentinela;
+    do
     {
-        result = deleteNode(lista, noAtual);
-    }
-    else
-    {
-        result = FALSE;
-    }
-    return result;
-}
-
-boolean lista_contem_algo(const LISTA *lista)
-{
-    return (lista != NULL) && (!lista_vazia(lista));
-}
-
-JOGO *lista_busca_ordenada(const LISTA *lista, int chave)
-{
-    JOGO *result = NULL;
-    if (lista_contem_algo(lista))
-    {
-        NODE *noAtual = lista->inicio;
-        /*Percorre a lista em busca da chave*/
-        noAtual = getNodeWithKey(chave, noAtual);
-        /*Se a lista não acabou significa que encontrou a chave*/
-        if (noAtual != NULL)
-        {
-            result = noAtual->jogo;
-        }
-    }
-    return result;
-}
-
-boolean deleteNode(LISTA *lista, NODE *noAtual)
-{ /*Se é o 1º da lista basta acertar o ptr inicio*/
-    if (is_list_start(lista, noAtual))
-    {
-        lista->inicio = noAtual->proximo;
-    }
-    /*Se não é o 1º da lista, há alguém antes dele para acertar o ptr*/
-    else
-    {
-        noAtual->anterior->proximo = noAtual->proximo;
-    }
-    /* Ideia do if/else anterior para o fim da lista */
-    if (noAtual == lista->fim)
-    {
-        lista->fim = noAtual->anterior;
-    }
-    else
-    {
-        noAtual->proximo->anterior = noAtual->anterior;
-    }
-    noAtual->proximo = NULL;
-    noAtual->anterior = NULL;
-    free(noAtual);
-    lista->tamanho--;
-    return TRUE;
+        p = p->proximo;
+    } while (jogo_get_chave(p->jogo) != chave);
+    jogo_apagar(&lista->sentinela->jogo);
+    return ((p != lista->sentinela) ? p->jogo : NULL);
 }
 
 NODE *getNodeWithKey(int chave, NODE *noAtual)
@@ -209,12 +125,71 @@ NODE *getNodeWithKey(int chave, NODE *noAtual)
     return noAtual;
 }
 
-boolean is_list_start(const LISTA *lista, const NODE *noAtual)
-{
-    return noAtual == lista->inicio;
-}
+// boolean lista_remover_item(LISTA *lista, int chave)
+// {
+//     NODE *noAtual = NULL;
+//     if (lista_contem_algo(lista))
+//     {
+//         /*Percorre a lista em busca da chave*/
+//         noAtual = lista_busca(chave, chave);
+//         /*Se a lista não acabou significa que encontrou a chave*/
+//         deleteNodeIfPossible(lista, noAtual);
+//     }
+//     return FALSE; /*elemento (chave) não está na lista ou lista vazia*/
+// }
+
+// boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual)
+// {
+//     boolean result;
+//     if (noAtual != NULL)
+//     {
+//         result = deleteNode(lista, noAtual);
+//     }
+//     else
+//     {
+//         result = FALSE;
+//     }
+//     return result;
+// }
+
+// boolean lista_contem_algo(const LISTA *lista)
+// {
+//     return (lista != NULL) && (!lista_vazia(lista));
+// }
+
+// boolean deleteNode(LISTA *lista, NODE *noAtual)
+// { /*Se é o 1º da lista basta acertar o ptr inicio*/
+//     if (is_list_start(lista, noAtual))
+//     {
+//         lista->sentinela = noAtual->proximo;
+//     }
+//     /*Se não é o 1º da lista, há alguém antes dele para acertar o ptr*/
+//     else
+//     {
+//         noAtual->anterior->proximo = noAtual->proximo;
+//     }
+//     /* Ideia do if/else anterior para o fim da lista */
+//     if (noAtual == lista->fim)
+//     {
+//         lista->fim = noAtual->anterior;
+//     }
+//     else
+//     {
+//         noAtual->proximo->anterior = noAtual->anterior;
+//     }
+//     noAtual->proximo = NULL;
+//     noAtual->anterior = NULL;
+//     free(noAtual);
+//     lista->tamanho--;
+//     return TRUE;
+// }
+
+// boolean is_list_start(const LISTA *lista, const NODE *noAtual)
+// {
+//     return noAtual == lista->sentinela->proximo;
+// }
 
 boolean lista_vazia(const LISTA *lista)
 {
-    return lista->inicio == NULL;
+    return lista->tamanho == 0;
 }

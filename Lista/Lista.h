@@ -21,7 +21,7 @@ int lista_tamanho(const LISTA *lista);
 boolean lista_vazia(const LISTA *lista);
 boolean lista_cheia(const LISTA *lista);
 void lista_imprimir(const LISTA *lista);
-ITEM *lista_busca_ordenada(const LISTA *lista, int chave);
+ITEM *lista_busca(const LISTA *lista, int chave);
 int lista_inserir_ordenado(LISTA *lista, ITEM *i);
 boolean lista_contem_algo(const LISTA *lista);
 #endif //LISTA_H

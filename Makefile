@@ -1,4 +1,4 @@
-ITEM = Item/Item.c
+JOGO = Jogo/Jogo.c
 MAIN = main.c
 UTIL = Util/Util.c
 PILHA = Pilha/PilhaEncadeada.c
@@ -22,7 +22,7 @@ clean:
 	@rm *.o
 
 objlib:
-	gcc -Wall -pedantic -Werror -Wextra -c -fPIC $(UTIL) $(ITEM)
+	gcc -Wall -pedantic -Werror -Wextra -c -fPIC $(UTIL) $(JOGO)
 
 lib:
 	ar -rcs lib_util.a *.o

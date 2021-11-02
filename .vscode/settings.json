@@ -3,6 +3,6 @@
     "*.mdx": "markdown",
     "lista.h": "c",
     "util.h": "c",
-    "item.h": "c"
+    "jogo.h": "c"
   }
 }

@@ -6,7 +6,7 @@ typedef struct node_st NODE;
 
 struct node_st
 {
-    ITEM *item;
+    JOGO *jogo;
     NODE *anterior;
     NODE *proximo;
 };
@@ -52,7 +52,7 @@ void lista_esvazia(NODE *noAtual)
         {
             lista_esvazia(noAtual->proximo);
         }
-        item_apagar(&noAtual->item);
+        jogo_apagar(&noAtual->jogo);
         noAtual->anterior = NULL;
         free(noAtual); /* apaga o nó*/
         noAtual = NULL;
@@ -70,14 +70,14 @@ boolean lista_apagar(LISTA **lista)
 }
 
 /*Insere um novo nó no fim da lista. PARA LISTAS NÃO ORDENADAS*/
-boolean lista_inserir_fim(LISTA *lista, ITEM *item)
+boolean lista_inserir_fim(LISTA *lista, JOGO *jogo)
 {
     if ((lista != NULL))
     {
         NODE *pnovo = (NODE *)malloc(sizeof(NODE));
         if (pnovo != NULL)
         {
-            pnovo->item = item;
+            pnovo->jogo = jogo;
             if (lista->sentinela->proximo == NULL)
             {
                 pnovo->anterior = lista->sentinela;
@@ -101,24 +101,24 @@ boolean lista_inserir_fim(LISTA *lista, ITEM *item)
     }
     return FALSE;
 }
-ITEM *lista_busca(const LISTA *lista, int chave)
-{
-    lista->sentinela->item = item_criar_vazio();
 
-    item_set_chave(lista->sentinela->item, chave);
+JOGO *lista_busca(const LISTA *lista, int chave)
+{
+    lista->sentinela->jogo = jogo_criar_vazio();
+
+    jogo_set_chave(lista->sentinela->jogo, chave);
     NODE *p = lista->sentinela;
     do
     {
         p = p->proximo;
-    } while (item_get_chave(p->item) != chave);
-    item_apagar(&lista->sentinela->item);
-    return ((p != lista->sentinela) ? p->item : NULL);
+    } while (jogo_get_chave(p->jogo) != chave);
+    jogo_apagar(&lista->sentinela->jogo);
+    return ((p != lista->sentinela) ? p->jogo : NULL);
 }
 
 NODE *getNodeWithKey(int chave, NODE *noAtual)
 {
-
-    while (noAtual != NULL && (item_get_chave(noAtual->item) != chave))
+    while (noAtual != NULL && (jogo_get_chave(noAtual->jogo) != chave))
     {
         noAtual = noAtual->proximo;
     }

@@ -24,4 +24,5 @@ void lista_imprimir(const LISTA *lista);
 JOGO *lista_busca(const LISTA *lista, int chave);
 int lista_inserir_ordenado(LISTA *lista, JOGO *i);
 boolean lista_contem_algo(const LISTA *lista);
+boolean lista_remove_jogos_duplicados(const LISTA *lista);
 #endif //LISTA_H

@@ -124,6 +124,26 @@ NODE *getNodeWithKey(int chave, NODE *noAtual)
     }
     return noAtual;
 }
+boolean lista_remove_jogos_duplicados(LISTA *lista)
+{
+    NODE *noAtual = lista->sentinela->proximo;
+    // implementação se não fosse circular
+    // se fosse circular seria noAtual != NULL && jogo_get_chave(p->jogo) != 0 -> nesse caso 0 seria o nosso sentinela, que significa dar a volta na lista :)
+    while (noAtual != NULL)
+    {
+        NODE *noAtual2 = noAtual->proximo;
+        while (noAtual2 != NULL)
+        {
+            if (jogo_iguais(noAtual->jogo, noAtual2->jogo))
+            {
+                deleteNodeIfPossible(lista, noAtual2);
+            }
+            noAtual2 = noAtual2->proximo;
+        }
+        noAtual = noAtual->proximo;
+    }
+    return TRUE;
+}
 
 // boolean lista_remover_item(LISTA *lista, int chave)
 // {
@@ -138,51 +158,60 @@ NODE *getNodeWithKey(int chave, NODE *noAtual)
 //     return FALSE; /*elemento (chave) não está na lista ou lista vazia*/
 // }
 
-// boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual)
-// {
-//     boolean result;
-//     if (noAtual != NULL)
-//     {
-//         result = deleteNode(lista, noAtual);
-//     }
-//     else
-//     {
-//         result = FALSE;
-//     }
-//     return result;
-// }
+boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual)
+{
+    boolean result;
+    if (noAtual != NULL)
+    {
+        result = deleteNode(lista, noAtual);
+    }
+    else
+    {
+        result = FALSE;
+    }
+    return result;
+}
 
 // boolean lista_contem_algo(const LISTA *lista)
 // {
 //     return (lista != NULL) && (!lista_vazia(lista));
 // }
 
-// boolean deleteNode(LISTA *lista, NODE *noAtual)
-// { /*Se é o 1º da lista basta acertar o ptr inicio*/
-//     if (is_list_start(lista, noAtual))
-//     {
-//         lista->sentinela = noAtual->proximo;
-//     }
-//     /*Se não é o 1º da lista, há alguém antes dele para acertar o ptr*/
-//     else
-//     {
-//         noAtual->anterior->proximo = noAtual->proximo;
-//     }
-//     /* Ideia do if/else anterior para o fim da lista */
-//     if (noAtual == lista->fim)
-//     {
-//         lista->fim = noAtual->anterior;
-//     }
-//     else
-//     {
-//         noAtual->proximo->anterior = noAtual->anterior;
-//     }
-//     noAtual->proximo = NULL;
-//     noAtual->anterior = NULL;
-//     free(noAtual);
-//     lista->tamanho--;
-//     return TRUE;
-// }
+boolean deleteNode(LISTA *lista, NODE *noAtual)
+{ 
+    // esse método deve ser um dos mais complicados
+    // pq tem que tratar alguns casos diferentes
+    // se for o nó anteiror ao sentinela
+    // se for o nó posterior ao sentinela
+    // se a lista sem aquele nó não vai ficar vazia
+    // se o nó estiver em qualquer lugar da lista entre o posterior e anterior do sentinela, vulgo meio
+    if (is_list_start(lista, noAtual))
+    {
+        // tem que validar se é o último, pq a gente iria fazer o sentinela apontar para ele mesmo
+        // tem que validar se na lista existe mais de um elemento
+        lista->sentinela = noAtual->proximo;
+    }
+    /*Se não é o 1º da lista, há alguém antes dele para acertar o ptr*/
+    else
+    {
+        noAtual->anterior->proximo = noAtual->proximo;
+        noAtual->proximo->anterior = noAtual->anterior;
+    }
+    /* Ideia do if/else anterior para o fim da lista */
+    if (noAtual == lista->fim)
+    {
+        lista->fim = noAtual->anterior;
+    }
+    else
+    {
+        noAtual->proximo->anterior = noAtual->anterior;
+    }
+    noAtual->proximo = NULL;
+    noAtual->anterior = NULL;
+    free(noAtual);
+    lista->tamanho--;
+    return TRUE;
+}
 
 // boolean is_list_start(const LISTA *lista, const NODE *noAtual)
 // {

@@ -36,10 +36,10 @@ JOGO *jogo_criar(int chave, const char *nome, int ano, const char *empresa)
     return NULL;
 }
 
-JOGO *jogo_ler_std_in()
+JOGO *jogo_ler_std_in(int chave)
 {
     JOGO jogo;
-    scanf("%d", &(jogo.chave));
+    jogo.chave = chave;
     scanf(" %[^(\r|\n)]*c", jogo.nome);
     scanf("%d", &(jogo.ano));
     scanf(" %[^(\r|\n)]*c", jogo.empresa);

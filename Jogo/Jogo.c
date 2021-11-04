@@ -90,9 +90,9 @@ void jogo_imprimir(const JOGO *jogo)
 
 boolean jogos_iguais(const JOGO *jogo1, const JOGO *jogo2)
 {
+    boolean iguais = FALSE;
     if (jogo1 != NULL && jogo2 != NULL)
     {
-        boolean iguais = FALSE;
         if(jogo1->ano == jogo2->ano)
         {
             if(strcmp(jogo1->nome, jogo2->nome) == 0)
@@ -104,5 +104,5 @@ boolean jogos_iguais(const JOGO *jogo1, const JOGO *jogo2)
             }
         }
     }
-    return FALSE;
+    return iguais;
 }

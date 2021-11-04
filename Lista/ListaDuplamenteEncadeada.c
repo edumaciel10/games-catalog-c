@@ -124,6 +124,8 @@ NODE *getNodeWithKey(int chave, NODE *noAtual)
 }
 boolean lista_remove_jogos_duplicados(LISTA *lista)
 {
+    lista->sentinela->jogo = jogo_criar_vazio();
+    jogo_set_chave(lista->sentinela->jogo, 0);
     NODE *noAtual = lista->sentinela->proximo;
     // implementação se não fosse circular
     // se fosse circular seria noAtual != NULL 
@@ -132,7 +134,9 @@ boolean lista_remove_jogos_duplicados(LISTA *lista)
     while (jogo_get_chave(noAtual->jogo) != 0)
     {
         NODE *noAtual2 = noAtual->proximo;
-        while (noAtual2 != NULL)
+        while (noAtual2 != NULL 
+                && jogo_get_chave(noAtual2->jogo) != 0
+                && jogo_get_chave(noAtual->jogo) != 0)
         {
             if (jogos_iguais(noAtual->jogo, noAtual2->jogo))
             {
@@ -236,7 +240,6 @@ boolean deleteNode(LISTA *lista, NODE *noAtual)
         return TRUE;
     }
     lista_remover_meio(noAtual->anterior, noAtual, noAtual->proximo);
-    free(noAtual);
     lista->tamanho--;
     return TRUE;
 }

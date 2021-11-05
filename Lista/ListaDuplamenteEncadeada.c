@@ -262,7 +262,7 @@ boolean lista_vazia(const LISTA *lista)
 
 void lista_imprimir_jogos_from_produtora(LISTA *lista, char *produtora)
 {
-    if( strcmp(produtora, "") == 0 ){
+    if( lista == NULL || strcmp(produtora, "") == 0 ){
         return;
     }
     
@@ -280,7 +280,7 @@ void lista_imprimir_jogos_from_produtora(LISTA *lista, char *produtora)
 
 void lista_imprimir_jogos_from_ano(LISTA *lista, int ano)
 {
-    if( ano < 0 ){
+    if( lista == NULL || ano < 0 ){
         return;
     }
     
@@ -292,6 +292,20 @@ void lista_imprimir_jogos_from_ano(LISTA *lista, int ano)
         if( anoAtual == ano ){
             printf("%s\n", jogo_get_nome(noAtual->jogo));
         }
+        noAtual = noAtual->proximo;
+    }while(noAtual != lista->sentinela && noAtual != NULL);
+}
+
+void lista_imprimir_todos_jogos(LISTA *lista)
+{
+    if( lista == NULL ){
+        return;
+    }
+    
+    NODE *noAtual = lista->sentinela->proximo;
+
+    do{
+        printf("%s\n", jogo_get_nome(noAtual->jogo));
         noAtual = noAtual->proximo;
     }while(noAtual != lista->sentinela && noAtual != NULL);
 }

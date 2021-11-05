@@ -46,6 +46,28 @@ JOGO *jogo_ler_std_in(int chave)
     return jogo_criar(jogo.chave, jogo.nome, jogo.ano, jogo.empresa);
 }
 
+JOGO *jogo_ler_linha_csv(FILE *arquivo, int chave){
+    char input[50];
+    fscanf(arquivo, " %[^(\r|\n)]*c", input);
+
+    char nome[50]; char string_ano[10]; int ano; char empresa[50];
+
+    char *pointer = strtok(input, ";");
+    if(pointer == NULL){
+        return NULL;
+    }
+    strcpy(nome, pointer);
+
+    pointer = strtok(NULL, ";");
+    strcpy(string_ano, pointer);
+    ano = atoi(string_ano);
+
+    pointer = strtok(NULL, "\n");
+    strcpy(empresa, pointer);
+
+    return jogo_criar(chave, nome, ano, empresa);
+}
+
 boolean jogo_apagar(JOGO **jogo)
 {
     if (*jogo != NULL)

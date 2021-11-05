@@ -277,3 +277,21 @@ void lista_imprimir_jogos_from_produtora(LISTA *lista, char *produtora)
         noAtual = noAtual->proximo;
     }while(noAtual != lista->sentinela && noAtual != NULL);
 }
+
+void lista_imprimir_jogos_from_ano(LISTA *lista, int ano)
+{
+    if( ano < 0 ){
+        return;
+    }
+    
+    NODE *noAtual = lista->sentinela->proximo;
+    int anoAtual;
+
+    do{
+        anoAtual = jogo_get_ano(noAtual->jogo);
+        if( anoAtual == ano ){
+            printf("%s\n", jogo_get_nome(noAtual->jogo));
+        }
+        noAtual = noAtual->proximo;
+    }while(noAtual != lista->sentinela && noAtual != NULL);
+}

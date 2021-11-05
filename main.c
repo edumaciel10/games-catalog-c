@@ -68,7 +68,10 @@ void testePesquisas()
         lista_inserir_fim(lista, jogo);
     }
     printf("\n\n\n");
+    printf("Produtora:\n");
     lista_imprimir_jogos_from_produtora(lista, "Ubisoft");
+    printf("\nAno:\n");
+    lista_imprimir_jogos_from_ano(lista, 2013);
     boolean_print(lista_vazia(lista));
     // should print passed in green
     printf("\033[32m PASSED");

@@ -29,4 +29,5 @@ int lista_inserir_ordenado(LISTA *lista, JOGO *i);
 boolean lista_contem_algo(const LISTA *lista);
 boolean lista_remove_jogos_duplicados(LISTA *lista);
 void lista_imprimir_jogos_from_produtora(LISTA *lista, char *produtora);
+void lista_imprimir_jogos_from_ano(LISTA *lista, int ano);
 #endif //LISTA_H

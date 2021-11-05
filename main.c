@@ -14,6 +14,11 @@ int main()
     LISTA *catalogo;
     catalogo = lerJogosDoCSV();
     lista_imprimir_todos_jogos(catalogo);
+    printf("\n\n");
+    lista_imprimir_jogo_from_index(catalogo, 5);
+    //lista_mover_direita(catalogo, 3, 2);
+    //printf("\n----------\n");
+    //lista_imprimir_todos_jogos(catalogo);
     //testeEmpilhaStdin();
     //testeInserirRemover();
     //testePesquisas();

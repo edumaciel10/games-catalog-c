@@ -9,6 +9,7 @@
 #define ERRO (-32000)
 
 typedef struct lista LISTA;
+typedef struct node_st NODE;
 
 LISTA *lista_criar();
 boolean lista_inserir_inicio(LISTA *lista, JOGO *i);
@@ -20,8 +21,11 @@ boolean lista_remover_jogo(LISTA *lista, int chave);
 int lista_tamanho(const LISTA *lista);
 boolean lista_vazia(const LISTA *lista);
 boolean lista_cheia(const LISTA *lista);
+boolean lista_fim(const LISTA *lista, const NODE *noAtual);
+boolean lista_comeco(const LISTA *lista, const NODE *noAtual);
 void lista_imprimir(const LISTA *lista);
 JOGO *lista_busca(const LISTA *lista, int chave);
 int lista_inserir_ordenado(LISTA *lista, JOGO *i);
 boolean lista_contem_algo(const LISTA *lista);
+boolean lista_remove_jogos_duplicados(LISTA *lista);
 #endif //LISTA_H

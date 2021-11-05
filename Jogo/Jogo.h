@@ -14,5 +14,6 @@ boolean jogo_apagar(JOGO **jogo);
 void jogo_imprimir(const JOGO *jogo);
 int jogo_get_chave(const JOGO *jogo);
 boolean jogo_set_chave(JOGO *jogo, int chave);
+boolean jogos_iguais(const JOGO *jogo1, const JOGO *jogo2);
 
 #endif //JOGO_H

@@ -10,6 +10,7 @@ typedef struct game_st JOGO;
 JOGO *jogo_criar_vazio();
 JOGO *jogo_criar(int chave, const char *nome, int ano, const char *empresa);
 JOGO *jogo_ler_std_in(int chave);
+JOGO *jogo_ler_linha_csv(FILE *arquivo, int chave);
 boolean jogo_apagar(JOGO **jogo);
 void jogo_imprimir(const JOGO *jogo);
 int jogo_get_chave(const JOGO *jogo);

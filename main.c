@@ -7,12 +7,35 @@ void testeEmpilhaStdin();
 void testeInserir();
 void testeInserirRemover();
 void testePesquisas();
+LISTA *lerJogosDoCSV();
 
 int main()
 {
+    LISTA *catalogo;
+    catalogo = lerJogosDoCSV();
+    lista_imprimir_todos_jogos(catalogo);
     //testeEmpilhaStdin();
     //testeInserirRemover();
-    testePesquisas();
+    //testePesquisas();
+}
+
+LISTA *lerJogosDoCSV(){
+    FILE *arquivo;
+    arquivo = fopen("CSV.csv", "r");
+    fseek(arquivo, 3, SEEK_SET);
+
+    JOGO *jogo;
+    int key = 1;
+    LISTA *lista = lista_criar();
+    while( !feof(arquivo) ){
+        jogo = jogo_ler_linha_csv(arquivo, key);
+        if(jogo != NULL){
+            lista_inserir_fim(lista, jogo);
+            key++;
+        }
+    }
+    fclose(arquivo);
+    return lista;
 }
 
 void testeEmpilhaStdin()

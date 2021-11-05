@@ -77,6 +77,33 @@ boolean jogo_set_chave(JOGO *jogo, int chave)
     return FALSE;
 }
 
+char *jogo_get_nome(JOGO *jogo)
+{
+    if(jogo == NULL){
+        return NULL;
+    }
+
+    return jogo->nome;
+}
+
+int jogo_get_ano(JOGO *jogo)
+{
+    if(jogo == NULL){
+        return -1;
+    }
+
+    return jogo->ano;
+}
+
+char *jogo_get_empresa(JOGO *jogo)
+{
+    if(jogo == NULL){
+        return NULL;
+    }
+
+    return jogo->empresa;
+}
+
 void jogo_imprimir(const JOGO *jogo)
 {
     if (jogo != NULL)

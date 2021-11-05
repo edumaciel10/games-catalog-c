@@ -7,7 +7,7 @@ BINARY = main
 NAME = TAD
 
 all:
-	gcc -Wall -g $(LISTA) $(MAIN) -L. -l_util -o $(BINARY)
+	gcc -Wall -g $(LISTA) $(JOGO) $(MAIN) -L. -l_util -o $(BINARY)
 
 run:
 	./$(BINARY)

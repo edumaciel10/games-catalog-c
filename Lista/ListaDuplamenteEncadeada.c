@@ -1,5 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "../Lista/Lista.h"
 
 
@@ -256,4 +258,54 @@ boolean lista_fim(const LISTA *lista, const NODE *noAtual)
 boolean lista_vazia(const LISTA *lista)
 {
     return lista->tamanho == 0;
+}
+
+void lista_imprimir_jogos_from_produtora(LISTA *lista, char *produtora)
+{
+    if( lista == NULL || strcmp(produtora, "") == 0 ){
+        return;
+    }
+    
+    NODE *noAtual = lista->sentinela->proximo;
+    char *produtoraAtual;
+
+    do{
+        produtoraAtual = jogo_get_empresa(noAtual->jogo);
+        if( strcmp(produtoraAtual, produtora) == 0 ){
+            printf("%s\n", jogo_get_nome(noAtual->jogo));
+        }
+        noAtual = noAtual->proximo;
+    }while(noAtual != lista->sentinela && noAtual != NULL);
+}
+
+void lista_imprimir_jogos_from_ano(LISTA *lista, int ano)
+{
+    if( lista == NULL || ano < 0 ){
+        return;
+    }
+    
+    NODE *noAtual = lista->sentinela->proximo;
+    int anoAtual;
+
+    do{
+        anoAtual = jogo_get_ano(noAtual->jogo);
+        if( anoAtual == ano ){
+            printf("%s\n", jogo_get_nome(noAtual->jogo));
+        }
+        noAtual = noAtual->proximo;
+    }while(noAtual != lista->sentinela && noAtual != NULL);
+}
+
+void lista_imprimir_todos_jogos(LISTA *lista)
+{
+    if( lista == NULL ){
+        return;
+    }
+    
+    NODE *noAtual = lista->sentinela->proximo;
+
+    do{
+        printf("%s\n", jogo_get_nome(noAtual->jogo));
+        noAtual = noAtual->proximo;
+    }while(noAtual != lista->sentinela && noAtual != NULL);
 }

@@ -61,7 +61,6 @@ LISTA *lerJogosDoCSV(){
     FILE *arquivo;
     arquivo = fopen("CSV.csv", "r");
     fseek(arquivo, 3, SEEK_SET);
-
     JOGO *jogo;
     int key = 1;
     LISTA *lista = lista_criar();

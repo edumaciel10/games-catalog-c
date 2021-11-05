@@ -52,19 +52,18 @@ JOGO *jogo_ler_linha_csv(FILE *arquivo, int chave){
 
     char nome[50]; char string_ano[10]; int ano; char empresa[50];
 
-    char *pointer = strtok(input, ",");
+    char *pointer = strtok(input, ";");
     if(pointer == NULL){
         return NULL;
     }
     strcpy(nome, pointer);
 
-    pointer = strtok(NULL, ",");
+    pointer = strtok(NULL, ";");
     strcpy(string_ano, pointer);
     ano = atoi(string_ano);
 
     pointer = strtok(NULL, "\n");
     strcpy(empresa, pointer);
-
     return jogo_criar(chave, nome, ano, empresa);
 }
 

@@ -13,8 +13,9 @@ int main()
 {
     LISTA *catalogo;
     catalogo = lerJogosDoCSV();
-    char *input;
-    input = readLine();
+    char input[2];
+    scanf("%s",input);
+    getchar();
     char *aux;
     char *aux2;
     while(strcmp(input,"f") != 0) {
@@ -49,7 +50,8 @@ int main()
         if(strcmp(input,"f")==0) {
             break;
         }
-        input = readLine();
+        scanf("%s",input);
+        getchar();
     }
     return 0;
     //testeEmpilhaStdin();

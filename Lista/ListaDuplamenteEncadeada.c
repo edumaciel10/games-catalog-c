@@ -83,19 +83,15 @@ boolean lista_inserir_fim(LISTA *lista, JOGO *jogo)
             if (lista->sentinela->proximo == NULL)
             {
                 pnovo->anterior = lista->sentinela;
-                pnovo->proximo = NULL;
                 lista->sentinela->proximo = pnovo;
             }
             else
             {
                 lista->fim->proximo = pnovo;
                 pnovo->anterior = lista->fim;
-                pnovo->proximo = lista->sentinela;
-                if (lista->fim->anterior == NULL)
-                {
-                    lista->fim->anterior = lista->sentinela;
-                }
             }
+            pnovo->proximo = lista->sentinela;
+            lista->sentinela->anterior = pnovo;
             lista->fim = pnovo;
             lista->tamanho++;
             return TRUE;
@@ -308,4 +304,67 @@ void lista_imprimir_todos_jogos(LISTA *lista)
         printf("%s\n", jogo_get_nome(noAtual->jogo));
         noAtual = noAtual->proximo;
     }while(noAtual != lista->sentinela && noAtual != NULL);
+}
+
+static NODE *get_node_by_index(LISTA *lista, int index)
+{
+    if( lista == NULL || index < 0 || index >= lista->tamanho){
+        return NULL;
+    }
+
+
+    NODE *noAtual = lista->sentinela;
+    int current_pos = -1;
+    do{
+        noAtual = noAtual->proximo;
+        current_pos++;
+    }while(current_pos < index);
+
+    return noAtual;
+}
+
+void lista_imprimir_jogo_from_index(LISTA *lista, int index)
+{
+    NODE *noAtual = get_node_by_index(lista, index);
+    if(noAtual != NULL){
+        char *nome = jogo_get_nome(noAtual->jogo);
+        printf("%s\n", nome);
+    }
+}
+
+void lista_mover_direita(LISTA *lista, int index, int steps)
+{
+    if( lista == NULL || lista->tamanho < 2 || steps <= 0){
+        return;
+    }
+
+    NODE *noAtual = get_node_by_index(lista, index);
+
+    int destino = (index+steps)%(lista->tamanho);
+
+    NODE *noFuturoAnterior = get_node_by_index(lista, destino);
+
+    // saindo da antiga vizinhança
+    noAtual->anterior->proximo = noAtual->proximo;
+    noAtual->proximo->anterior = noAtual->anterior;
+    if( lista_fim(lista, noAtual) ){
+        lista->fim = noAtual->anterior;
+    }
+
+    // conhecendo nova vizinhança
+    if( lista_fim(lista, noFuturoAnterior) ){
+        // vai entrar no lugar do primeiro
+        NODE *primeiro = lista->sentinela->proximo;
+        noAtual->proximo = primeiro;
+        primeiro->anterior = noAtual;
+
+        noAtual->anterior = lista->sentinela;
+        lista->sentinela->proximo = noAtual;
+    }else{
+        // vai entrar no meio da lista
+        noFuturoAnterior->proximo->anterior = noAtual;
+        noAtual->proximo = noFuturoAnterior->proximo;
+        noFuturoAnterior->proximo = noAtual;
+        noAtual->anterior = noFuturoAnterior;
+    }
 }

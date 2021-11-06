@@ -13,6 +13,7 @@ int main()
 {
     LISTA *catalogo;
     catalogo = lerJogosDoCSV();
+
     char input[2];
     scanf("%s",input);
     getchar();
@@ -54,6 +55,7 @@ int main()
         getchar();
     }
     return 0;
+
     //testeEmpilhaStdin();
     //testeInserirRemover();
     //testePesquisas();

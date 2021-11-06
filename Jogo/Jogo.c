@@ -36,16 +36,6 @@ JOGO *jogo_criar(int chave, const char *nome, int ano, const char *empresa)
     return NULL;
 }
 
-JOGO *jogo_ler_std_in(int chave)
-{
-    JOGO jogo;
-    jogo.chave = chave;
-    scanf(" %[^(\r|\n)]*c", jogo.nome);
-    scanf("%d", &(jogo.ano));
-    scanf(" %[^(\r|\n)]*c", jogo.empresa);
-    return jogo_criar(jogo.chave, jogo.nome, jogo.ano, jogo.empresa);
-}
-
 JOGO *jogo_ler_linha_csv(FILE *arquivo, int chave){
     char input[50];
     fscanf(arquivo, " %[^(\r|\n)]*c", input);
@@ -123,17 +113,6 @@ char *jogo_get_empresa(JOGO *jogo)
     }
 
     return jogo->empresa;
-}
-
-void jogo_imprimir(const JOGO *jogo)
-{
-    if (jogo != NULL)
-    {
-        printf("\n-->chave: %d", jogo->chave);
-        printf("\n-->nome: %s", jogo->nome);
-        printf("\n-->ano: %d", jogo->ano);
-        printf("\n-->empresa: %s", jogo->empresa);
-    }
 }
 
 boolean jogos_iguais(const JOGO *jogo1, const JOGO *jogo2)

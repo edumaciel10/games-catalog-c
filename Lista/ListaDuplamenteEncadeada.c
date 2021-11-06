@@ -340,7 +340,11 @@ void lista_mover_direita(LISTA *lista, int index, int steps)
 
     NODE *noAtual = get_node_by_index(lista, index);
 
-    int destino = (index+steps)%(lista->tamanho);
+    int destino = (index+steps)%(lista->tamanho-1);
+
+    if(destino == index){
+        return;
+    }
 
     NODE *noFuturoAnterior = get_node_by_index(lista, destino);
 
@@ -366,5 +370,51 @@ void lista_mover_direita(LISTA *lista, int index, int steps)
         noAtual->proximo = noFuturoAnterior->proximo;
         noFuturoAnterior->proximo = noAtual;
         noAtual->anterior = noFuturoAnterior;
+    }
+}
+
+void lista_mover_esquerda(LISTA *lista, int index, int steps)
+{
+    if( lista == NULL || lista->tamanho < 2 || steps <= 0){
+        return;
+    }
+
+    NODE *noAtual = get_node_by_index(lista, index);
+
+    int destino = (index-steps)%(lista->tamanho-1);
+    if(destino < 0){
+        destino += lista->tamanho;
+    }
+
+    if(destino == index){
+        return;
+    }
+
+    NODE *noFuturoProximo = get_node_by_index(lista, destino);
+
+    // saindo da antiga vizinhança
+    noAtual->anterior->proximo = noAtual->proximo;
+    noAtual->proximo->anterior = noAtual->anterior;
+    if( lista_fim(lista, noAtual) ){
+        lista->fim = noAtual->anterior;
+    }
+
+    // conhecendo nova vizinhança
+    if( lista_comeco(lista, noFuturoProximo) ){
+        // vai entrar no lugar do ultimo
+        NODE *ultimo = lista->fim;
+        noAtual->anterior = ultimo;
+        ultimo->proximo = noAtual;
+
+        noAtual->proximo = lista->sentinela;
+        lista->sentinela->anterior = noAtual;
+        
+        lista->fim = noAtual;
+    }else{
+        // vai entrar no meio da lista
+        noFuturoProximo->anterior->proximo = noAtual;
+        noAtual->anterior = noFuturoProximo->anterior;
+        noFuturoProximo->anterior = noAtual;
+        noAtual->proximo = noFuturoProximo;
     }
 }

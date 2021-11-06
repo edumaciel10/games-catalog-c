@@ -13,7 +13,6 @@ int main()
 {
     LISTA *catalogo;
     catalogo = lerJogosDoCSV();
-<<<<<<< Updated upstream
 
     char input[2];
     scanf("%s",input);
@@ -57,14 +56,6 @@ int main()
     }
     return 0;
 
-=======
-    lista_imprimir_todos_jogos(catalogo);
-    //printf("\n\n");
-    //lista_imprimir_jogo_from_index(catalogo, 5);
-    lista_mover_esquerda(catalogo, 0, 6);
-    printf("\n----------\n");
-    lista_imprimir_todos_jogos(catalogo);
->>>>>>> Stashed changes
     //testeEmpilhaStdin();
     //testeInserirRemover();
     //testePesquisas();

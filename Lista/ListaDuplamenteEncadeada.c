@@ -340,7 +340,8 @@ void lista_mover_direita(LISTA *lista, int index, int steps)
 
     NODE *noAtual = get_node_by_index(lista, index);
 
-    int destino = (index+steps)%(lista->tamanho-1);
+    int tam = lista->tamanho;
+    int destino = ( index + (steps % (tam-1)) ) % tam;
 
     if(destino == index){
         return;
@@ -381,9 +382,11 @@ void lista_mover_esquerda(LISTA *lista, int index, int steps)
 
     NODE *noAtual = get_node_by_index(lista, index);
 
-    int destino = (index-steps)%(lista->tamanho-1);
+    int tam = lista->tamanho;
+    int destino = ( index - (steps % (tam-1)) ) % tam;
+
     if(destino < 0){
-        destino += lista->tamanho;
+        destino += tam;
     }
 
     if(destino == index){

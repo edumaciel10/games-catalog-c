@@ -26,10 +26,12 @@ int main()
         if(strcmp(input,"p")==0) {
             param = readLine();
             lista_imprimir_jogos_from_produtora(catalogo,param);
+            free(param);
         }
         if(strcmp(input,"a")==0) {
             param = readLine();
             lista_imprimir_jogos_from_ano(catalogo,atoi(param));
+            free(param);
         }
         if(strcmp(input,"i")==0) {
             lista_imprimir_todos_jogos(catalogo);
@@ -37,6 +39,7 @@ int main()
         if(strcmp(input,"u")==0) {
             param = readLine();
             lista_imprimir_jogo_from_index(catalogo,atoi(param));
+            free(param);
         }
         if(strcmp(input,"mr")==0) {
             char copyParam[20];
@@ -46,10 +49,9 @@ int main()
             strcpy(param,pointer);
             pointer = strtok(NULL,"\n");
             strcpy(param2,pointer);
-            lista_mover_direita(catalogo,atoi(param),atoi(param2));
 
-            // free(copyParam);
-            // free(pointer);
+            lista_mover_direita(catalogo,atoi(param),atoi(param2));
+            free(param);
         }
         if(strcmp(input,"ml")==0) {
             char copyParam[20];
@@ -61,13 +63,17 @@ int main()
             strcpy(param2,pointer);
 
             lista_mover_esquerda(catalogo,atoi(param),atoi(param2));
+            free(param);
         }
         if(strcmp(input,"f")==0) {
             break;
         }
+
         scanf("%s",input);
         getchar();
     }
+
+    lista_apagar(&catalogo);
     return 0;
 
     //testeEmpilhaStdin();

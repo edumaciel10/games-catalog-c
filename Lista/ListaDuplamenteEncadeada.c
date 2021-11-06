@@ -27,7 +27,7 @@ boolean deleteNode(LISTA *lista, NODE *noAtual);
 
 boolean lista_contem_algo(const LISTA *lista);
 
-boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual);
+boolean deleteNodeIfPossible(LISTA *lista, NODE **noAtual);
 
 LISTA *lista_criar()
 {
@@ -36,7 +36,7 @@ LISTA *lista_criar()
     if (lista != NULL)
     {
         NODE *sentinela = (NODE *)malloc(sizeof(NODE));
-        jogo_set_chave(sentinela->jogo, 0);
+        sentinela->proximo = NULL;
         NODE *fim = NULL;
         lista->sentinela = sentinela;
         lista->fim = fim;
@@ -46,26 +46,29 @@ LISTA *lista_criar()
 }
 
 /*recebe o inicio da lista como argumento e esvazia a mesma*/
-void lista_esvazia(NODE *noAtual)
+void lista_esvazia(LISTA *lista)
 {
-    if (noAtual != NULL)
-    {
-        if (noAtual->proximo != NULL)
-        {
-            lista_esvazia(noAtual->proximo);
-        }
-        jogo_apagar(&noAtual->jogo);
-        noAtual->anterior = NULL;
+    NODE *noAtual = lista->sentinela->proximo;
+    NODE *proximoReserva;
+    while(noAtual != lista->sentinela){
+        jogo_apagar( &(noAtual->jogo) );
+        proximoReserva = noAtual->proximo;
         free(noAtual); /* apaga o nó*/
         noAtual = NULL;
+
+        noAtual = proximoReserva;
     }
+
+    free(lista->sentinela);
+    lista->sentinela = NULL;
+    lista->fim = NULL;
 }
 
 boolean lista_apagar(LISTA **lista)
 {
     if (*lista == NULL)
         return FALSE;
-    lista_esvazia((*lista)->sentinela->proximo);
+    lista_esvazia(*lista);
     free(*lista);
     *lista = NULL;
     return TRUE;
@@ -125,25 +128,25 @@ boolean lista_remove_jogos_duplicados(LISTA *lista)
     lista->sentinela->jogo = jogo_criar_vazio();
     jogo_set_chave(lista->sentinela->jogo, 0);
     NODE *noAtual = lista->sentinela->proximo;
-    // implementação se não fosse circular
-    // se fosse circular seria noAtual != NULL 
-    // && jogo_get_chave(p->jogo) != 0 -> 
-    // nesse caso 0 seria o nosso sentinela, que significa dar a volta na lista :)
     while (jogo_get_chave(noAtual->jogo) != 0)
     {
         NODE *noAtual2 = noAtual->proximo;
+        NODE *proximoReserva;
         while (noAtual2 != NULL 
                 && jogo_get_chave(noAtual2->jogo) != 0
                 && jogo_get_chave(noAtual->jogo) != 0)
         {
+            proximoReserva = noAtual2->proximo;
             if (jogos_iguais(noAtual->jogo, noAtual2->jogo))
             {
-                deleteNodeIfPossible(lista, noAtual2);
+                deleteNodeIfPossible(lista, &noAtual2);
             }
-            noAtual2 = noAtual2->proximo;
+            noAtual2 = proximoReserva;
         }
         noAtual = noAtual->proximo;
     }
+
+    jogo_apagar( &(lista->sentinela->jogo) );
     return TRUE;
 }
 
@@ -160,12 +163,13 @@ boolean lista_remove_jogos_duplicados(LISTA *lista)
 //     return FALSE; /*elemento (chave) não está na lista ou lista vazia*/
 // }
 
-boolean deleteNodeIfPossible(LISTA *lista, NODE *noAtual)
+boolean deleteNodeIfPossible(LISTA *lista, NODE **noAtual)
 {
     boolean result;
-    if (noAtual != NULL)
+    if (*noAtual != NULL)
     {
-        result = deleteNode(lista, noAtual);
+        result = deleteNode(lista, *noAtual);
+        *noAtual = NULL;
     }
     else
     {
@@ -184,6 +188,7 @@ boolean lista_remover_meio(NODE *noAnterior, NODE *noVelho, NODE *noProximo) {
         noAnterior->proximo = noVelho->proximo;
         noProximo->anterior = noVelho->anterior;
         noVelho->proximo = noVelho->anterior = NULL;
+        jogo_apagar( &(noVelho->jogo) );
         free(noVelho);
         return TRUE;
     }
@@ -221,6 +226,7 @@ boolean deleteNode(LISTA *lista, NODE *noAtual)
     if ( lista->tamanho == 1 ) { 
         noAtual->proximo = noAtual->anterior = NULL;
         lista->sentinela->proximo = lista->sentinela->anterior = NULL;
+        jogo_apagar( &(noAtual->jogo) );
         free(noAtual);
         lista->tamanho--;
         return TRUE;

@@ -33,4 +33,5 @@ void lista_imprimir_jogos_from_ano(LISTA *lista, int ano);
 void lista_imprimir_todos_jogos(LISTA *lista);
 void lista_imprimir_jogo_from_index(LISTA *lista, int index);
 void lista_mover_direita(LISTA *lista, int index, int steps);
+void lista_mover_esquerda(LISTA *lista, int index, int steps);
 #endif //LISTA_H

@@ -17,36 +17,50 @@ int main()
     char input[2];
     scanf("%s",input);
     getchar();
-    char *aux;
-    char *aux2;
+    char *param;
+    char param2[10];
     while(strcmp(input,"f") != 0) {
         if(strcmp(input,"r") ==0) {
             lista_remove_jogos_duplicados(catalogo);
         }
         if(strcmp(input,"p")==0) {
-            aux = readLine();
-            lista_imprimir_jogos_from_produtora(catalogo,aux);
+            param = readLine();
+            lista_imprimir_jogos_from_produtora(catalogo,param);
         }
         if(strcmp(input,"a")==0) {
-            aux2 = readLine();
-            lista_imprimir_jogos_from_ano(catalogo,atoi(aux2));
+            param = readLine();
+            lista_imprimir_jogos_from_ano(catalogo,atoi(param));
         }
         if(strcmp(input,"i")==0) {
             lista_imprimir_todos_jogos(catalogo);
         }
         if(strcmp(input,"u")==0) {
-            aux = readLine();
-            // lista_imprimir_jogo_from_index(catalogo,atoi(aux));
+            param = readLine();
+            lista_imprimir_jogo_from_index(catalogo,atoi(param));
         }
         if(strcmp(input,"mr")==0) {
-            aux = readLine();
-            aux2 = readLine();
-        //     lista_mover_direita(catalogo,atoi(aux2),atoi(aux));
+            char copyParam[20];
+            param = readLine();
+            strcpy(copyParam,param);
+            char *pointer = strtok(copyParam," ");
+            strcpy(param,pointer);
+            pointer = strtok(NULL,"\n");
+            strcpy(param2,pointer);
+            lista_mover_direita(catalogo,atoi(param),atoi(param2));
+
+            // free(copyParam);
+            // free(pointer);
         }
         if(strcmp(input,"ml")==0) {
-            aux = readLine();
-            aux2 = readLine();
-        //     lista_mover_esquerda(catalogo,atoi(aux2),atoi(aux));
+            char copyParam[20];
+            param = readLine();
+            strcpy(copyParam,param);
+            char *pointer = strtok(copyParam," ");
+            strcpy(param,pointer);
+            pointer = strtok(NULL,"\n");
+            strcpy(param2,pointer);
+
+            lista_mover_esquerda(catalogo,atoi(param),atoi(param2));
         }
         if(strcmp(input,"f")==0) {
             break;

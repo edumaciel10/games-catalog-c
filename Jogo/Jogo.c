@@ -64,7 +64,6 @@ JOGO *jogo_ler_linha_csv(FILE *arquivo, int chave){
 
     pointer = strtok(NULL, "\n");
     strcpy(empresa, pointer);
-
     return jogo_criar(chave, nome, ano, empresa);
 }
 
